@@ -1,21 +1,32 @@
-import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth/";
+
+// Dados simulados para login e registro
+let users = [
+  { id: 1, username: "usuario1", password: "senha123", email: "usuario1@email.com" },
+  { id: 2, username: "usuario2", password: "senha456", email: "usuario2@email.com" }
+];
 
 class AuthService {
   login(username: string, password: string) {
-    return axios
-      .post(API_URL + "signin", {
-        username,
-        password
-      })
-      .then(response => {
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
+    const user = users.find(user => user.username === username && user.password === password);
 
-        return response.data;
-      });
+    if (user) {
+      const response = {
+        data: {
+          accessToken: "mockAccessToken",
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email
+          }
+        }
+      };
+
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      return Promise.resolve(response.data);
+    } else {
+      return Promise.reject("Usuário ou senha incorretos");
+    }
   }
 
   logout() {
@@ -23,11 +34,16 @@ class AuthService {
   }
 
   register(username: string, email: string, password: string) {
-    return axios.post(API_URL + "registrar", {
+    // Simula a criação de um novo usuário
+    const newUser = {
+      id: users.length + 1, // Gera um novo ID baseado no comprimento atual da lista
       username,
       email,
       password
-    });
+    };
+
+    users.push(newUser); // Adiciona o novo usuário à lista
+    return Promise.resolve(newUser); // Retorna uma promessa resolvida com o novo usuário
   }
 
   getCurrentUser() {

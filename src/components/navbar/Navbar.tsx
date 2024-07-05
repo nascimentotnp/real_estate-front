@@ -36,13 +36,12 @@ class Navbar extends Component<NavbarProps, NavbarState> {
             <NavLink
               className="nav-link text-capitalize position-relative hover"
               to={`/${item.name === '' ? '' : item.name}`}
-              title={item.name === '' ? 'home' : item.name} // Adicione a propriedade title aqui
+              title={item.name === '' ? 'home' : item.name} 
             >
               <IconComponent
                 className={`me-2 nav-item-icon ${item.animated ? 'animate-icon' : ''}`}
-                title={item.name === '' ? 'home' : item.name} // Adicione a propriedade title aqui também
+                title={item.name === '' ? 'home' : item.name} 
               />
-              {/* <span className="nav-item-text">{item.name === '' ? 'home' : item.name}</span> */}
             </NavLink>
           </li>
         );
@@ -83,7 +82,6 @@ class Navbar extends Component<NavbarProps, NavbarState> {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            {/* <span className="navbar-toggler-icon"></span> */}
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -109,7 +107,7 @@ class Navbar extends Component<NavbarProps, NavbarState> {
               {currentUser && (
                 <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
-                    User
+                    Usuário
                   </Link>
                 </li>
               )}
@@ -124,7 +122,7 @@ class Navbar extends Component<NavbarProps, NavbarState> {
                 </li>
                 <li className="nav-item">
                   <a href="/login" className="nav-link" onClick={logOut}>
-                    LogOut
+                    Sair
                   </a>
                 </li>
               </ul>

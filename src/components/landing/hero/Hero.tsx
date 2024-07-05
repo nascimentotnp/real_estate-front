@@ -14,25 +14,32 @@ class Hero extends Component<{}> {
                 <h3 className="title text-capitalize">
                   Bem-vindo a Pizzaria <span>DiTrento</span>!
                 </h3>
-                <p className="sub-title text-muted text-capitalize">
-                  Onde seu futuro começa
-                </p>
-                <p className="desc pb-3">
-                  Tenha uma ERP de Qualidade para o seu suporte técnico e
-                  manutenção
+                <p className="desc mb-lg-4 mb-5">
+                  Na DiTrento, acreditamos que uma pizza perfeita é uma
+                  combinação de ingredientes frescos, técnicas artesanais e amor
+                  pelo que fazemos. Cada pizza é preparada com massa de
+                  fermentação lenta, ingredientes selecionados e receitas que
+                  foram passadas de geração em geração. Nosso cardápio oferece
+                  uma variedade de sabores autênticos, desde as clássicas
+                  Muçarela e Calabresa até as nossas criações exclusivas, todas
+                  assadas em forno a lenha para garantir uma crocância e sabor
+                  inigualáveis. Além das pizzas, contamos com uma seleção de
+                  entradas, saladas e sobremesas que complementam perfeitamente
+                  a sua refeição.
                 </p>
                 <div className="buttons">
                   <Link
                     className="btn btn-primary text-capitalize me-3 shadow btn-custom"
                     to="/sobre"
                   >
-                    Saiba mais<i className="ms-2 fas fa-chevron-right"></i>
+                    Conheça nossa História<i className="fas fa-arrow-right ms-2"></i>
                   </Link>
                   <Link
                     className="btn btn-outline-custom text-capitalize shadow"
                     to="/plans"
                   >
-                    Conheça nossos Sabores<i className="ms-2 fas fa-chevron-right"></i>
+                    Conheça nossos Sabores
+                    <i className="fas fa-arrow-right ms-2"></i>
                   </Link>
                 </div>
               </div>

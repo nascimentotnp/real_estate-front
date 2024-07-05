@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Pagination from '../pagination/Pagination';
 import Section from './sections/section1/Section';
 import './Plans.css';
 

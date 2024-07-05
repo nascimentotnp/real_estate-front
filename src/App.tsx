@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -20,10 +20,10 @@ import Login from "./components/login/login.component";
 import Footer from "./components/footer/Footer";
 import About from "./components/about/About";
 import Landing from "./components/landing/Landing";
-import Courses from "./components/courses/Courses";
-import Contact from "./components/contact/Contact";
 import Notfound from "./components/notfound/Notfound";
 import Plans from "./components/plans/Plans";
+import PrivateRoute from "./components/privateRoute";
+import Cart from "./components/buy/shoppingCart";
 
 type Props = {};
 
@@ -51,8 +51,7 @@ class App extends Component<Props, State> {
     if (user) {
       this.setState({
         currentUser: user,
-        showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
-        showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+       
       });
     }
 
@@ -98,10 +97,10 @@ class App extends Component<Props, State> {
             <Route path="/mod" element={<BoardModerator />} />
             <Route path="/admin" element={<BoardAdmin />} />
             <Route path="/sobre" element={<About />} />
-            <Route path="/courses/*" element={<Courses />} />
-            <Route path="/contato" element={<Contact />} />
             <Route path="*" element={<Notfound />} />
             <Route path="/plans" element={<Plans />} />
+
+
 
           </Routes>
         </div>

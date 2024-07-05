@@ -1,4 +1,4 @@
-const section1 = [
+const flavors = [
 	{
 	  image: require('../../../../images/sabores/muçarela.svg'),
 	  text: "Muçarela, molho de tomate e óregano"
@@ -22,6 +22,6 @@ const section1 = [
   ];
   
   export {
-	section1
+	flavors
   };
   
