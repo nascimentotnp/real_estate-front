@@ -1,13 +1,15 @@
 import { Component } from "react";
-
+import IUser from "../types/user.type";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
 
-type Props = {};
+type Props = {
+  currentUser: IUser | undefined;
+};
 
 type State = {
   content: string;
-}
+};
 
 export default class BoardAdmin extends Component<Props, State> {
   constructor(props: Props) {
@@ -19,27 +21,35 @@ export default class BoardAdmin extends Component<Props, State> {
   }
 
   componentDidMount() {
-    UserService.getAdminBoard().then(
-      response => {
-        this.setState({
-          content: response.data
-        });
-      },
-      error => {
-        this.setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
+    const { currentUser } = this.props;
 
-        if (error.response && error.response.status === 401) {
-          EventBus.dispatch("logout");
+    if (currentUser && currentUser.role && currentUser.role.includes("ROLE_ADMIN")) {
+      UserService.getAdminBoard().then(
+        response => {
+          this.setState({
+            content: response.data
+          });
+        },
+        error => {
+          this.setState({
+            content:
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+          });
+
+          if (error.response && error.response.status === 401) {
+            EventBus.dispatch("logout");
+          }
         }
-      }
-    );
+      );
+    } else {
+      this.setState({
+        content: "Acesso negado: Você não tem permissão para acessar esta página."
+      });
+    }
   }
 
   render() {

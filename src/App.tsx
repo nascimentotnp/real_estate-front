@@ -23,7 +23,8 @@ import Landing from "./components/landing/Landing";
 import Notfound from "./components/notfound/Notfound";
 import Plans from "./components/plans/Plans";
 import PrivateRoute from "./components/privateRoute";
-import Cart from "./components/buy/shoppingCart";
+import Pizza from "./components/pizza/Pizza";
+import Formulary from "./components/form/Form";
 
 type Props = {};
 
@@ -95,10 +96,13 @@ class App extends Component<Props, State> {
             <Route path="/profile" element={<Profile />} />
             <Route path="/user" element={<BoardUser />} />
             <Route path="/mod" element={<BoardModerator />} />
-            <Route path="/admin" element={<BoardAdmin />} />
+            <Route path="/admin" element={<BoardAdmin currentUser={undefined} />} />
             <Route path="/sobre" element={<About />} />
             <Route path="*" element={<Notfound />} />
             <Route path="/plans" element={<Plans />} />
+            <Route path="/pizzas" element={< Pizza/>}/>
+            <Route path="/pizza/:id" element={<Formulary />} />
+
 
 
 

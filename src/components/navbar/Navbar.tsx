@@ -36,11 +36,11 @@ class Navbar extends Component<NavbarProps, NavbarState> {
             <NavLink
               className="nav-link text-capitalize position-relative hover"
               to={`/${item.name === '' ? '' : item.name}`}
-              title={item.name === '' ? 'home' : item.name} 
+              title={item.name === '' ? 'home' : item.name}
             >
               <IconComponent
                 className={`me-2 nav-item-icon ${item.animated ? 'animate-icon' : ''}`}
-                title={item.name === '' ? 'home' : item.name} 
+                title={item.name === '' ? 'home' : item.name}
               />
             </NavLink>
           </li>

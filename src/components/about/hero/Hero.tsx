@@ -6,7 +6,7 @@ import about from "../../../images/sections/about.svg";
 class Hero extends Component<{}> {
   render() {
     return (
-      <div className="hero py-2 mb-5">
+      <div className="hero py-5 mb-5">
         <div className="container">
           <div className="title pt-1 pb-5 text-center">
             <h4 className="sub-title">

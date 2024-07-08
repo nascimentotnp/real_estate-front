@@ -60,7 +60,7 @@ export default class Login extends Component<Props, State> {
     AuthService.login(username, password).then(
       () => {
         this.setState({
-          redirect: "/profile"
+          redirect: "/"
         });
       },
       error => {

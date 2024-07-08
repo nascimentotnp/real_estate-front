@@ -11,7 +11,7 @@ class Hero extends Component<{}> {
           <div className="row align-items-center">
             <div className="c col-lg-6 col-12">
               <div className="left-side mb-lg-0 mb-5 text-lg-start text-center">
-                <h3 className="title text-capitalize">
+                <h3 className="title py-5">
                   Bem-vindo a Pizzaria <span>DiTrento</span>!
                 </h3>
                 <p className="desc mb-lg-4 mb-5">
@@ -29,7 +29,7 @@ class Hero extends Component<{}> {
                 </p>
                 <div className="buttons">
                   <Link
-                    className="btn btn-primary text-capitalize me-3 shadow btn-custom"
+                    className="btn text-capitalize me-3 shadow btn-custom"
                     to="/sobre"
                   >
                     Conheça nossa História<i className="fas fa-arrow-right ms-2"></i>

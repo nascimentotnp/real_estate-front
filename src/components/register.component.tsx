@@ -3,8 +3,11 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import AuthService from "../services/auth.service";
+import withNavigation from "./withNavigation";
 
-type Props = {};
+type Props = {
+  navigate: any;
+};
 
 type State = {
   username: string,
@@ -14,7 +17,7 @@ type State = {
   message: string
 };
 
-export default class Register extends Component<Props, State> {
+class Register extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
@@ -71,8 +74,10 @@ export default class Register extends Component<Props, State> {
     ).then(
       response => {
         this.setState({
-          successful: true
+          successful: true,
+          message: "Registration successful!"
         });
+        this.props.navigate("/login"); // Redirect to login page
       },
       error => {
         const resMessage =
@@ -175,3 +180,5 @@ export default class Register extends Component<Props, State> {
     );
   }
 }
+
+export default withNavigation(Register);

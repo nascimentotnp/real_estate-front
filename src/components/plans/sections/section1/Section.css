@@ -7,7 +7,7 @@
     opacity: 0.3; } }
 @keyframes coloring {
   0%, 100% {
-    color: #0a4d68; }
+    color: #3d6a6d; }
   50% {
     color: grey; } }
 .s1 .container .d .b {
@@ -24,22 +24,22 @@
 
 
   .btn-custom {
-    background-color: #0a4d68;
-    border-color: #0a4d68;
+    background-color: #3d6a6d;
+    border-color: #3d6a6d;
     color: white; /* Ensure the text is visible on the button */
   }
   
   .btn-custom:hover {
-    background-color: #0a4d68;
-    border-color: #0a4d68;
+    background-color: #3d6a6d;
+    border-color: white;
   }
   .btn-outline-custom {
-    border-color: #0a4d68; 
-    color: #0a4d68; 
+    border-color: #3d6a6d; 
+    color: #3d6a6d; 
   }
   
   .btn-outline-custom:hover {
-    background-color: #0a4d68; 
+    background-color: #3d6a6d; 
     color: white; 
   }
     

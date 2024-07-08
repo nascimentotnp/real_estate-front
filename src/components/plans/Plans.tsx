@@ -28,8 +28,8 @@ class Plans extends Component<{}, PlansState> {
     return (
       <>
         <div className="container">
-          <div className="title py-3 text-center">
-            <h4 className="sub-title text-capitalize">Escolha o seu <span>Sabor</span></h4>
+          <div className="title py-5 text-center">
+            <h4 className="sub-title py-5 text-capitalize">Escolha o seu <span>Sabor</span></h4>
           </div>
         </div>
         <Routes>
