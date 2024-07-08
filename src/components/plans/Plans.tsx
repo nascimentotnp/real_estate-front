@@ -1,30 +1,25 @@
 import React, { Component } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Section from './sections/section1/Section';
+import AuthService from '../../services/auth.service'; // Importe o AuthService corretamente
 import './Plans.css';
 
-// Define the type for the state array items
-interface PathItem {
-  path: string;
-//   number: number;
-}
-
-// Define the type for the component state
 interface PlansState {
-  array: PathItem[];
+  isAuthenticated: boolean;
 }
 
 class Plans extends Component<{}, PlansState> {
   state: PlansState = {
-    array: [
-      {
-        path: '/courses/',
-        // number: 1
-      }
-    ]
+    isAuthenticated: AuthService.getCurrentUser() !== null, 
   };
 
   render() {
+    const { isAuthenticated } = this.state;
+
+    if (!isAuthenticated) {
+      return <Navigate to="/login" />;
+    }
+
     return (
       <>
         <div className="container">

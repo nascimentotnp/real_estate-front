@@ -1,35 +1,30 @@
 import React, { useState, useEffect } from "react";
 import "./Pizza.css";
-import { flavors } from "../plans/sections/section1/Data";
-
-interface Flavor {
-  image: any;
-  text: string;
-  id: number;
-  price?: number;
-}
 
 function Pizza() {
-  const [pizza, setPizza] = useState<Flavor[]>([]);
-
+  const [pizzas, setPizzas] = useState<any[]>([]); 
   useEffect(() => {
-    getPizza();
+    loadPizzasFromStorage();
   }, []);
 
-  const getPizza = () => {
-    // Simula a busca de dados
-    setPizza(flavors);
+  const loadPizzasFromStorage = () => {
+    const purchasedPizzas = JSON.parse(localStorage.getItem("purchases") || '[]');
+    setPizzas(purchasedPizzas);
   };
 
   return (
     <section className='pizza'>
       <div>
-        <h2>Lista de Pizzas</h2>
+        <h2>Lista de Pizzas Compradas</h2>
         <ul>
-          {pizza.map(pizza => (
-            <li key={pizza.id}>
-              <strong>Sabor:</strong> {pizza.text} - <strong>Preço:</strong> {pizza.price}
-              <a href={`/pizza/${pizza.id}`}>Editar</a>
+          {pizzas.map((pizza: any, index: number) => (
+            <li key={index}>
+              <strong>Sabor:</strong> {pizza.name} - <strong>Preço:</strong> R${pizza.price.toFixed(2)}
+              <br />
+              <strong>Tamanho:</strong> {pizza.size}
+              {pizza.stuffed_pizza_edge === "true" && (
+                <span> - <strong>Borda Recheada:</strong> {pizza.flavor_stuffed_pizza_edge}</span>
+              )}
             </li>
           ))}
         </ul>

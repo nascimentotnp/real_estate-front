@@ -1,4 +1,4 @@
-import { FaUserAlt , FaSignInAlt, FaPizzaSlice, FaUserCheck  } from "react-icons/fa";
+import { FaUserAlt , FaSignInAlt, FaPizzaSlice, FaShoppingCart  } from "react-icons/fa";
 
 export interface NavbarItem {
   name?: string;
@@ -34,8 +34,8 @@ const navbar_items: NavbarItem[] = [
 
   },
   {
-    name: "user",
-    icon: FaUserCheck ,
+    name: "purchase",
+    icon: FaShoppingCart,
     public: false,
     animated: true,
     roles: ["user"],

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 
 import AuthService from "../services/auth.service";
 import withNavigation from "./withNavigation";
+import { users } from "../services/data"; // Certifique-se de que esta importação esteja correta
 
 type Props = {
   navigate: any;
@@ -14,7 +15,8 @@ type State = {
   email: string,
   password: string,
   successful: boolean,
-  message: string
+  message: string,
+  role: string
 };
 
 class Register extends Component<Props, State> {
@@ -27,7 +29,8 @@ class Register extends Component<Props, State> {
       email: "",
       password: "",
       successful: false,
-      message: ""
+      message: "",
+      role: ""
     };
   }
 
@@ -56,11 +59,13 @@ class Register extends Component<Props, State> {
             val.toString().length <= 40
         )
         .required("This field is required!"),
+      role: Yup.string()
+        .required("This field is required!")
     });
   }
 
-  handleRegister(formValue: { username: string; email: string; password: string }) {
-    const { username, email, password } = formValue;
+  handleRegister(formValue: { username: string; email: string; password: string, role: string }) {
+    const { username, email, password, role } = formValue;
 
     this.setState({
       message: "",
@@ -70,7 +75,8 @@ class Register extends Component<Props, State> {
     AuthService.register(
       username,
       email,
-      password
+      password, 
+      role
     ).then(
       response => {
         this.setState({
@@ -102,6 +108,7 @@ class Register extends Component<Props, State> {
       username: "",
       email: "",
       password: "",
+      role: ""
     };
 
     return (
@@ -150,6 +157,21 @@ class Register extends Component<Props, State> {
                     />
                     <ErrorMessage
                       name="password"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label htmlFor="role"> Role </label>
+                    <Field as="select" name="role" className="form-control">
+                      <option value="">Select a role</option>
+                      {users.map((role: { id: number, role: string }) => (
+                        <option key={role.id} value={role.role}>{role.role}</option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="role"
                       component="div"
                       className="alert alert-danger"
                     />

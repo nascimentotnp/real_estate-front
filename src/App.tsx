@@ -7,10 +7,8 @@ import AuthService from "./services/auth.service";
 import IUser from "./types/user.type";
 
 import Register from "./components/register.component";
-import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
-import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 
 import EventBus from "./common/EventBus";
@@ -22,7 +20,6 @@ import About from "./components/about/About";
 import Landing from "./components/landing/Landing";
 import Notfound from "./components/notfound/Notfound";
 import Plans from "./components/plans/Plans";
-import PrivateRoute from "./components/privateRoute";
 import Pizza from "./components/pizza/Pizza";
 import Formulary from "./components/form/Form";
 
@@ -90,12 +87,10 @@ class App extends Component<Props, State> {
         <div className="container mt-3">
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registrar" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/user" element={<BoardUser />} />
-            <Route path="/mod" element={<BoardModerator />} />
+            <Route path="/purchase" element={<BoardUser />} />
             <Route path="/admin" element={<BoardAdmin currentUser={undefined} />} />
             <Route path="/sobre" element={<About />} />
             <Route path="*" element={<Notfound />} />

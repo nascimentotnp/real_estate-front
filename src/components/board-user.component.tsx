@@ -1,5 +1,4 @@
-import { Component } from "react";
-
+import React, { Component } from "react";
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
 
@@ -7,6 +6,7 @@ type Props = {};
 
 type State = {
   content: string;
+  purchases: any[];
 }
 
 export default class BoardUser extends Component<Props, State> {
@@ -14,7 +14,8 @@ export default class BoardUser extends Component<Props, State> {
     super(props);
 
     this.state = {
-      content: ""
+      content: "",
+      purchases: []
     };
   }
 
@@ -40,6 +41,9 @@ export default class BoardUser extends Component<Props, State> {
         }
       }
     );
+
+    const purchases = JSON.parse(localStorage.getItem("purchases") || '[]');
+    this.setState({ purchases });
   }
 
   render() {
@@ -48,6 +52,16 @@ export default class BoardUser extends Component<Props, State> {
         <header className="jumbotron">
           <h3>{this.state.content}</h3>
         </header>
+        <div>
+          <h4>Compras Realizadas</h4>
+          <ul>
+            {this.state.purchases.map((purchase, index) => (
+              <li key={index}>
+                {purchase.name} - {purchase.size} - R${purchase.price.toFixed(2)}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
   }

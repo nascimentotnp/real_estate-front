@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Button from "../button/Button";
 import { useNavigate } from 'react-router-dom';
 import "./Form.css";
+import SweetAlertWrapper from "../sweetAlert/SweetAlertWrapper";
 
 interface Pizza {
   name: string;
@@ -18,7 +19,6 @@ interface FormErrors {
 }
 
 function Formulary() {
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const [pizza, setPizza] = useState<Pizza>({
@@ -32,28 +32,32 @@ function Formulary() {
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     const storedPizza = JSON.parse(localStorage.getItem("selectedPizza") || '{}');
     if (storedPizza) {
       setPizza({
         ...storedPizza,
-        size: "", 
-        stuffed_pizza_edge: "", 
-        flavor_stuffed_pizza_edge: "", 
-        price: 0, 
+        size: "",
+        stuffed_pizza_edge: "",
+        flavor_stuffed_pizza_edge: "",
+        price: 0,
       });
     }
   }, []);
 
   const checkUserLoggedIn = () => {
-    const isLoggedIn = localStorage.getItem('userLoggedIn'); 
+    const isLoggedIn = localStorage.getItem('userLoggedIn');
     if (isLoggedIn) {
-      localStorage.setItem("submittedPizza", JSON.stringify(pizza));
+      let purchases = JSON.parse(localStorage.getItem("purchases") || '[]');
+      purchases.push(pizza);
+      localStorage.setItem("purchases", JSON.stringify(purchases));
       console.log("Pizza enviada:", pizza);
+      navigate('/purchase');
     } else {
       localStorage.setItem("pendingPizza", JSON.stringify(pizza));
-      navigate('/login'); 
+      navigate('/login');
     }
   };
 
@@ -110,7 +114,8 @@ function Formulary() {
     });
     setFormErrors(errors);
     if (Object.keys(errors).length === 0) {
-      checkUserLoggedIn(); 
+      checkUserLoggedIn();
+      setShowAlert(true);
     } else {
       console.error("Há campos obrigatórios não preenchidos");
     }
@@ -118,6 +123,16 @@ function Formulary() {
 
   return (
     <div>
+      <SweetAlertWrapper
+        show={showAlert}
+        icon="success"
+        title="Compra Realizada com Sucesso!"
+        html={`Você comprou uma pizza ${pizza.name} por R$${pizza.price}.`}
+        onConfirm={() => {
+          setShowAlert(false);
+          navigate('/purchase');
+        }}
+      />
       <form onSubmit={handleSubmit} id="pizzaForm">
         <h1>Coccina DiTrento</h1>
         <label className="centered-letter pt-5 ditrento-brand span" htmlFor="foodType">

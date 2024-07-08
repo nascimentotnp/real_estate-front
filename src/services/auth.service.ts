@@ -1,14 +1,9 @@
+import { users } from "./data";
 
-
-// Dados simulados para login e registro
-let users = [
-  { id: 1, username: "usuario1", password: "senha123", email: "usuario1@email.com" },
-  { id: 2, username: "usuario2", password: "senha456", email: "usuario2@email.com" }
-];
 
 class AuthService {
   login(username: string, password: string) {
-    const user = users.find(user => user.username === username && user.password === password);
+    const user = users.find((user: { username: string; password: string; }) => user.username === username && user.password === password);
 
     if (user) {
       const response = {
@@ -17,7 +12,8 @@ class AuthService {
           user: {
             id: user.id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            role: user.role
           }
         }
       };
@@ -33,13 +29,14 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username: string, email: string, password: string) {
+  register(username: string, email: string, password: string, role:string) {
     // Simula a criação de um novo usuário
     const newUser = {
       id: users.length + 1, // Gera um novo ID baseado no comprimento atual da lista
       username,
       email,
-      password
+      password,
+      role
     };
 
     users.push(newUser); // Adiciona o novo usuário à lista
