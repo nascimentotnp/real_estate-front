@@ -1,25 +1,40 @@
-import React, { Component } from 'react';
-import { section1 } from './Data';
-import './Section.css';
+import React, { Component } from "react";
+import { flavors } from "./Data";
+import "./Section.css";
+import { NavLink } from "react-router-dom";
+import Button from "../../../button/Button";
 
-// Define the type for the items in the section1 array
-interface SectionItem {
-  image: {
-    default: string;
-  };
+interface Flavor {
+  image: any;
   text: string;
+  id: number;
+  price?: number;
 }
 
 class Section extends Component {
+  handleBuyClick = (item: Flavor) => {
+    localStorage.setItem("selectedPizza", JSON.stringify(item));
+  };
+
   display_section = () => {
-    let items = section1.map((item: SectionItem, index: number) => {
+    let items = flavors.map((item, index) => {
       return (
-        <div className="b mb-5 text-center p-3 shadow rounded mx-2" key={index}>
-          <img className="img-fluid mb-3" src={item.image.default} alt="course" />
+        <div className="b mb-5 text-center p-3 shadow rounded m-2" key={index}>
+          <img
+            className="img-fluid mb-3"
+            src={item.image.default}
+            alt="pizza"
+          />
           <p className="title">{item.text}</p>
-          <button className="btn btn-sm btn-outline-custom text-capitalize">
-            Comprar <i className="ms-2 fas fa-chevron-right"></i>
-          </button>
+          <Button className="btn-sm btn-custom">
+            <NavLink
+              className="nav-link position-relative btn-custom hover"
+              to={`/pizza/${item.id}`}
+              onClick={() => this.handleBuyClick(item)}
+            >
+              Comprar <i className="ms-2 fas fa-chevron-right"></i>
+            </NavLink>
+          </Button>
         </div>
       );
     });

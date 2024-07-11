@@ -1,33 +1,45 @@
-import axios from "axios";
+import { users } from "./data";
 
-const API_URL = "http://localhost:8080/api/auth/";
 
 class AuthService {
   login(username: string, password: string) {
-    return axios
-      .post(API_URL + "signin", {
-        username,
-        password
-      })
-      .then(response => {
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
+    const user = users.find((user: { username: string; password: string; }) => user.username === username && user.password === password);
 
-        return response.data;
-      });
+    if (user) {
+      const response = {
+        data: {
+          accessToken: "mockAccessToken",
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role
+          }
+        }
+      };
+
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      return Promise.resolve(response.data);
+    } else {
+      return Promise.reject("Usuário ou senha incorretos");
+    }
   }
 
   logout() {
     localStorage.removeItem("user");
   }
 
-  register(username: string, email: string, password: string) {
-    return axios.post(API_URL + "registrar", {
+  register(username: string, email: string, password: string, role:string) {
+    const newUser = {
+      id: users.length + 1, 
       username,
       email,
-      password
-    });
+      password,
+      role
+    };
+
+    users.push(newUser); 
+    return Promise.resolve(newUser); 
   }
 
   getCurrentUser() {

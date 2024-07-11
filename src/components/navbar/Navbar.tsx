@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { navbar_items, NavbarItem } from "./Data";
 import IUser from "../../types/user.type";
@@ -23,27 +23,36 @@ class Navbar extends Component<NavbarProps, NavbarState> {
 
     return navbar_items
       .filter((item: NavbarItem) => {
-        if (item.public) {
-          return !currentUser;
+        if (item.name === "Login" && currentUser) {
+          return false; 
         }
-        return currentUser;
+        if (item.name === "Registrar" && currentUser?.role === "user") {
+
+          return false; 
+        }
+        if (item.public) {
+          return true;
+        }
+        if (currentUser && currentUser.role) {
+          return item.roles.includes(currentUser.role);
+        }
+        return false;
       })
       .map((item: NavbarItem, index: number) => {
         const IconComponent = item.icon;
 
         return (
           <li className="nav-item me-lg-3 my-lg-0 my-2" key={index}>
-            <NavLink
+            <Link
               className="nav-link text-capitalize position-relative hover"
               to={`/${item.name === '' ? '' : item.name}`}
-              title={item.name === '' ? 'home' : item.name} // Adicione a propriedade title aqui
+              title={item.name === '' ? 'home' : item.name}
             >
               <IconComponent
                 className={`me-2 nav-item-icon ${item.animated ? 'animate-icon' : ''}`}
-                title={item.name === '' ? 'home' : item.name} // Adicione a propriedade title aqui também
+                title={item.name === '' ? 'home' : item.name}
               />
-              {/* <span className="nav-item-text">{item.name === '' ? 'home' : item.name}</span> */}
-            </NavLink>
+            </Link>
           </li>
         );
       });
@@ -66,7 +75,7 @@ class Navbar extends Component<NavbarProps, NavbarState> {
   }
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard, logOut } = this.props;
+    const { currentUser, showAdminBoard, logOut } = this.props;
 
     return (
       <nav className={`navbar navbar-expand-lg navbar-light text-dark fixed-top ${this.state.s ? "shadow-xs" : "shadow"}`}>
@@ -83,40 +92,14 @@ class Navbar extends Component<NavbarProps, NavbarState> {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            {/* <span className="navbar-toggler-icon"></span> */}
+            <span className="navbar-toggler-icon"></span>
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav ml-auto">{this.display_navbar_items()}</ul>
-
-            <ul className="navbar-nav">
-              {showModeratorBoard && (
-                <li className="nav-item">
-                  <Link to={"/mod"} className="nav-link">
-                    Moderator Board
-                  </Link>
-                </li>
-              )}
-
-              {showAdminBoard && (
-                <li className="nav-item">
-                  <Link to={"/admin"} className="nav-link">
-                    Admin Board
-                  </Link>
-                </li>
-              )}
-
-              {currentUser && (
-                <li className="nav-item">
-                  <Link to={"/user"} className="nav-link">
-                    User
-                  </Link>
-                </li>
-              )}
-            </ul>
+            <ul className="navbar-nav ms-auto">{this.display_navbar_items()}</ul>
 
             {currentUser && (
-              <ul className="navbar-nav ml-auto">
+              <ul className="navbar-nav">
                 <li className="nav-item">
                   <Link to={"/profile"} className="nav-link">
                     {currentUser.username}
@@ -124,7 +107,7 @@ class Navbar extends Component<NavbarProps, NavbarState> {
                 </li>
                 <li className="nav-item">
                   <a href="/login" className="nav-link" onClick={logOut}>
-                    LogOut
+                    Sair
                   </a>
                 </li>
               </ul>

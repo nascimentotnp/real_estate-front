@@ -31,12 +31,12 @@ class Footer extends Component {
 
   render() {
     return (
-      <div className='footer py-3 pb-4'>
+      <div className='footer py-4'>
         <div className='container'>
-          <div className='footer-top py-3 mb-4 d-flex justify-content-center'>
+          <div className='footer-top py-0 mb-0 d-flex justify-content-center'>
             {this.display_social_items()}
           </div>
-          <div className='row text-start mb-4'>
+          <div className='row text-start mb-2'>
             <div className='col'>
               {this.display_internal_links()}
             </div>

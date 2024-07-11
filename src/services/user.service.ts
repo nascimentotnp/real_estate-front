@@ -1,23 +1,31 @@
-import axios from 'axios';
-import authHeader from './auth-header';
+import { adminBoard, moderatorBoard, publicContent, userBoard } from "./data";
 
-const API_URL = 'http://localhost:8080/api/test/';
-
+interface ApiResponse {
+  data: string;
+}
 class UserService {
   getPublicContent() {
-    return axios.get(API_URL + 'all');
+    return new Promise<ApiResponse>((resolve) => {
+      resolve({ data: publicContent });
+    });
   }
 
   getUserBoard() {
-    return axios.get(API_URL + 'user', { headers: authHeader() });
+    return new Promise<ApiResponse>((resolve) => {
+      resolve({ data: userBoard });
+    });
   }
 
   getModeratorBoard() {
-    return axios.get(API_URL + 'mod', { headers: authHeader() });
+    return new Promise<ApiResponse>((resolve) => {
+      resolve({ data: moderatorBoard });
+    });
   }
 
   getAdminBoard() {
-    return axios.get(API_URL + 'admin', { headers: authHeader() });
+    return new Promise<ApiResponse>((resolve) => {
+      resolve({ data: adminBoard });
+    });
   }
 }
 

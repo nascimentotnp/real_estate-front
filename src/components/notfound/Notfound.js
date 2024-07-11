@@ -14,9 +14,9 @@ class Notfound extends Component
 					<div className = 'row align-items-center'>
 						<div className = 'c col-lg-7 col-12'>
 							<div className = 'text mb-lg-0 mb-5 text-lg-start text-center'>
-								<h4 className = 'text-error text-capitalize mb-3'>page not found</h4>
-								<p className = 'text-desc text-capitalize mb-lg-3 mb-5 text-muted'>this page which you are trying to reach is not found. if you are having any issues feel free to send us your problem, and we will be happy to fix it as soon as we can</p>
-								<Link className = 'btn btn-outline-danger text-capitalize' to = '/contact'>contact us <i className="ms-2 fas fa-chevron-right"></i></Link>
+								<h4 className = 'text-error text-capitalize mb-3'>Página não encontrada</h4>
+								<p className = 'text-desc text-capitalize mb-lg-3 mb-5 text-muted'>Essa página não existe, volte para a home e entre na página dos nossos deliciosos sabore e faça seu pedido</p>
+								<Link className = 'btn btn-outline-danger' to = '/'>Volte para a Home <i className="ms-2 fas fa-chevron-right"></i></Link>
 							</div>
 						</div>
 						<div className = 'c col-lg-5 col-12'>

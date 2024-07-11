@@ -1,10 +1,11 @@
-import { FaUserAlt , FaSignInAlt  } from "react-icons/fa";
+import { FaUserAlt , FaSignInAlt, FaPizzaSlice, FaShoppingCart  } from "react-icons/fa";
 
 export interface NavbarItem {
   name?: string;
   icon?: any;
   public?: boolean;
-  animated?: boolean; // Adiciona a opção de animação
+  animated?: boolean; 
+  roles: string[]; 
 }
 
 const navbar_items: NavbarItem[] = [
@@ -12,14 +13,33 @@ const navbar_items: NavbarItem[] = [
     name: "Login",
     icon: FaUserAlt,
     public: true,
-    animated: true, // Ative a animação para este ícone
+    animated: true, 
+    roles: ["user", "admin"],
+
   },
   {
     name: "Registrar",
     icon: FaSignInAlt,
     public: true,
-    animated: true, // Ative a animação para este ícone
-  }
+    animated: true,
+    roles: ["user", "admin"],
+
+  },
+  {
+    name: "pizzas",
+    icon: FaPizzaSlice,
+    public: false,
+    animated: true,
+    roles: ["admin"],
+
+  },
+  {
+    name: "purchase",
+    icon: FaShoppingCart,
+    public: false,
+    animated: true,
+    roles: ["user"],
+  },
 ];
 
 export { navbar_items };
