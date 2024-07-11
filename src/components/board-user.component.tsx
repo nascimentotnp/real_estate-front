@@ -7,7 +7,7 @@ type Props = {};
 type State = {
   content: string;
   purchases: any[];
-}
+};
 
 export default class BoardUser extends Component<Props, State> {
   constructor(props: Props) {

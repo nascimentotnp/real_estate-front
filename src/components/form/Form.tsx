@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Button from "../button/Button";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "./Form.css";
-import SweetAlertWrapper from "../sweetAlert/SweetAlertWrapper";
+import Swal from "sweetalert2";
+import { Flex } from "@chakra-ui/react";
 
 interface Pizza {
   name: string;
@@ -18,12 +19,12 @@ interface FormErrors {
   [key: string]: string;
 }
 
-function Formulary() {
+export default function Formulary() {
   const navigate = useNavigate();
-
+  const handleBack = () => {navigate("/plans");};
   const [pizza, setPizza] = useState<Pizza>({
     name: "",
-    basePrice: 0.00,
+    basePrice: 0.0,
     filling: "",
     size: "",
     stuffed_pizza_edge: "",
@@ -32,11 +33,12 @@ function Formulary() {
   });
 
   const [formErrors, setFormErrors] = useState<FormErrors>({});
-  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    const storedPizza = JSON.parse(localStorage.getItem("selectedPizza") || '{}');
-    if (storedPizza) {
+    const storedPizza = JSON.parse(
+      localStorage.getItem("selectedPizza") || "{}"
+    );
+    if (storedPizza && storedPizza.name) {
       setPizza({
         ...storedPizza,
         size: "",
@@ -48,22 +50,28 @@ function Formulary() {
   }, []);
 
   const checkUserLoggedIn = () => {
-    const isLoggedIn = localStorage.getItem('userLoggedIn');
+    const isLoggedIn = localStorage.getItem("userLoggedIn");
     if (isLoggedIn) {
-      let purchases = JSON.parse(localStorage.getItem("purchases") || '[]');
+      const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
       purchases.push(pizza);
       localStorage.setItem("purchases", JSON.stringify(purchases));
-      console.log("Pizza enviada:", pizza);
-      navigate('/purchase');
+
+      const pizzaCount =
+        parseInt(localStorage.getItem("pizzaCount") || "0", 10) + 1;
+      localStorage.setItem("pizzaCount", pizzaCount.toString());
+
     } else {
       localStorage.setItem("pendingPizza", JSON.stringify(pizza));
-      navigate('/login');
+      navigate("/login");
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
     const { name, value, type } = e.target;
-    const newValue = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+    const newValue =
+      type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
     setPizza((prevState) => ({
       ...prevState,
       [name]: newValue,
@@ -104,7 +112,7 @@ function Formulary() {
     calculatePrice();
   }, [pizza.size, pizza.stuffed_pizza_edge, calculatePrice]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors: FormErrors = {};
     Object.keys(pizza).forEach((key) => {
@@ -115,7 +123,6 @@ function Formulary() {
     setFormErrors(errors);
     if (Object.keys(errors).length === 0) {
       checkUserLoggedIn();
-      setShowAlert(true);
     } else {
       console.error("Há campos obrigatórios não preenchidos");
     }
@@ -123,32 +130,26 @@ function Formulary() {
 
   return (
     <div>
-      <SweetAlertWrapper
-        show={showAlert}
-        icon="success"
-        title="Compra Realizada com Sucesso!"
-        html={`Você comprou uma pizza ${pizza.name} por R$${pizza.price}.`}
-        onConfirm={() => {
-          setShowAlert(false);
-          navigate('/purchase');
-        }}
-      />
-      <form onSubmit={handleSubmit} id="pizzaForm">
+      <form id="pizzaForm">
         <h1>Coccina DiTrento</h1>
-        <label className="centered-letter pt-5 ditrento-brand span" htmlFor="foodType">
+        <label
+          className="centered-letter pt-5 ditrento-brand span"
+          htmlFor="foodType"
+        >
           <span>Faça </span>Seu<span> Pedido</span>
         </label>
         <div className="label-input-container">
           <label className="centered-letter" htmlFor="pizzaName"></label>
-          <p className="centered-letter">
-            Nome: {pizza.name}
-          </p>
+          <p className="centered-letter">Nome: {pizza.name}</p>
           <label className="centered-letter" htmlFor="pizzaPrice"></label>
-          <p className="centered-letter">Total R${Number(pizza.price).toFixed(2)}</p>
+          <p className="centered-letter">
+            Total R${Number(pizza.price).toFixed(2)}
+          </p>
 
           <div id="pizzaOptions">
             <label className="centered-letter" htmlFor="pizzaSize"></label>
-            <select className="centered-letter"
+            <select
+              className="centered-letter"
               id="pizzaSize"
               required
               name="size"
@@ -162,7 +163,8 @@ function Formulary() {
               <option value="Gigante">Gigante</option>
             </select>
             <label className="centered-letter" htmlFor="stuffedCrust"></label>
-            <select className="centered-letter"
+            <select
+              className="centered-letter"
               id="stuffedCrust"
               required
               name="stuffed_pizza_edge"
@@ -176,7 +178,8 @@ function Formulary() {
             {pizza.stuffed_pizza_edge === "true" && (
               <div id="crustFlavorOptions">
                 <label htmlFor="crustFlavor"></label>
-                <select className="centered-letter"
+                <select
+                  className="centered-letter"
                   id="crustFlavor"
                   name="flavor_stuffed_pizza_edge"
                   value={pizza.flavor_stuffed_pizza_edge}
@@ -191,12 +194,15 @@ function Formulary() {
             )}
           </div>
         </div>
-        <div className="centered-button">
-          <Button>Comprar</Button>
-        </div>
+        <Flex justifyContent="space-between" alignSelf="end">
+          <Button flex={1} mr={2} type="button" onClick={handleBack}>
+            Voltar
+          </Button>
+          <Button flex={1} ml={2} type="button" onClick={onSubmit}>
+            Cadastrar
+          </Button>
+        </Flex>
       </form>
     </div>
   );
 }
-
-export default Formulary;

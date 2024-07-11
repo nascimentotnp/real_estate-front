@@ -30,17 +30,16 @@ class AuthService {
   }
 
   register(username: string, email: string, password: string, role:string) {
-    // Simula a criação de um novo usuário
     const newUser = {
-      id: users.length + 1, // Gera um novo ID baseado no comprimento atual da lista
+      id: users.length + 1, 
       username,
       email,
       password,
       role
     };
 
-    users.push(newUser); // Adiciona o novo usuário à lista
-    return Promise.resolve(newUser); // Retorna uma promessa resolvida com o novo usuário
+    users.push(newUser); 
+    return Promise.resolve(newUser); 
   }
 
   getCurrentUser() {
