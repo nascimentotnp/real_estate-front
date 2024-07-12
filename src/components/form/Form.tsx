@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
-import Button from "../button/Button";
 import { useNavigate } from "react-router-dom";
-import "./Form.css";
-import Swal from "sweetalert2";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Flex } from "@chakra-ui/react";
+import AuthService from "../../services/auth.service"; // Importar o AuthService
+import "./Form.css";
 
 interface Pizza {
   name: string;
@@ -13,6 +14,7 @@ interface Pizza {
   stuffed_pizza_edge: string;
   flavor_stuffed_pizza_edge: string;
   price: number;
+  userId?: number; // Adicionar userId opcional
 }
 
 interface FormErrors {
@@ -21,7 +23,11 @@ interface FormErrors {
 
 export default function Formulary() {
   const navigate = useNavigate();
-  const handleBack = () => {navigate("/plans");};
+  const handleBack = (e: any) => {
+    e.preventDefault();
+    navigate("/plans");
+  };
+
   const [pizza, setPizza] = useState<Pizza>({
     name: "",
     basePrice: 0.0,
@@ -35,9 +41,7 @@ export default function Formulary() {
   const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   useEffect(() => {
-    const storedPizza = JSON.parse(
-      localStorage.getItem("selectedPizza") || "{}"
-    );
+    const storedPizza = JSON.parse(localStorage.getItem("selectedPizza") || "{}");
     if (storedPizza && storedPizza.name) {
       setPizza({
         ...storedPizza,
@@ -48,23 +52,6 @@ export default function Formulary() {
       });
     }
   }, []);
-
-  const checkUserLoggedIn = () => {
-    const isLoggedIn = localStorage.getItem("userLoggedIn");
-    if (isLoggedIn) {
-      const purchases = JSON.parse(localStorage.getItem("purchases") || "[]");
-      purchases.push(pizza);
-      localStorage.setItem("purchases", JSON.stringify(purchases));
-
-      const pizzaCount =
-        parseInt(localStorage.getItem("pizzaCount") || "0", 10) + 1;
-      localStorage.setItem("pizzaCount", pizzaCount.toString());
-
-    } else {
-      localStorage.setItem("pendingPizza", JSON.stringify(pizza));
-      navigate("/login");
-    }
-  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
@@ -122,7 +109,20 @@ export default function Formulary() {
     });
     setFormErrors(errors);
     if (Object.keys(errors).length === 0) {
-      checkUserLoggedIn();
+      const currentUser = AuthService.getCurrentUser();
+      if (currentUser) {
+        const pizzaWithUser = { ...pizza, userId: currentUser.id };
+        let compras = localStorage.getItem('purchases');
+        if (!compras) {
+          compras = '[]';
+        }
+        const parsedCompras = JSON.parse(compras);
+        parsedCompras.push(pizzaWithUser);
+        localStorage.setItem('purchases', JSON.stringify(parsedCompras));
+        toast.success("Compra realizada com sucesso");
+      } else {
+        toast.error("Você precisa estar logado para realizar uma compra");
+      }
     } else {
       console.error("Há campos obrigatórios não preenchidos");
     }
@@ -130,7 +130,7 @@ export default function Formulary() {
 
   return (
     <div>
-      <form id="pizzaForm">
+      <form id="pizzaForm" onSubmit={onSubmit}>
         <h1>Coccina DiTrento</h1>
         <label
           className="centered-letter pt-5 ditrento-brand span"
@@ -142,9 +142,7 @@ export default function Formulary() {
           <label className="centered-letter" htmlFor="pizzaName"></label>
           <p className="centered-letter">Nome: {pizza.name}</p>
           <label className="centered-letter" htmlFor="pizzaPrice"></label>
-          <p className="centered-letter">
-            Total R${Number(pizza.price).toFixed(2)}
-          </p>
+          <p className="centered-letter">Total R${Number(pizza.price)}</p>
 
           <div id="pizzaOptions">
             <label className="centered-letter" htmlFor="pizzaSize"></label>
@@ -186,21 +184,17 @@ export default function Formulary() {
                   onChange={handleChange}
                 >
                   <option value="">Sabor da Borda</option>
-                  <option value="creamCheese">Cream Cheese</option>
-                  <option value="catupiry">Catupiry</option>
-                  <option value="cheddar">Cheddar</option>
+                  <option value="Cream Cheese">Cream Cheese</option>
+                  <option value="Catupiry">Catupiry</option>
+                  <option value="Cheddar">Cheddar</option>
                 </select>
               </div>
             )}
           </div>
         </div>
         <Flex justifyContent="space-between" alignSelf="end">
-          <Button flex={1} mr={2} type="button" onClick={handleBack}>
-            Voltar
-          </Button>
-          <Button flex={1} ml={2} type="button" onClick={onSubmit}>
-            Cadastrar
-          </Button>
+          <button className="button mx-2 px-2" onClick={handleBack}>Voltar</button>
+          <button className="button" type="submit">Comprar</button>
         </Flex>
       </form>
     </div>

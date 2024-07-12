@@ -1,41 +1,39 @@
 import React, { useState, useEffect } from "react";
 import "./Pizza.css";
-import { pizzas as pizzaData } from "./data";
+
+interface PizzaPurchase {
+  name: string;
+  price: number;
+  size: string;
+  stuffed_pizza_edge: boolean;
+  flavor_stuffed_pizza_edge?: string;
+}
 
 function Pizza() {
-  const [purchases, setPurchases] = useState<any[]>([]);
+  const [purchases, setPurchases] = useState<PizzaPurchase[]>([]);
 
   useEffect(() => {
     loadPizzasFromStorage();
   }, []);
 
   const loadPizzasFromStorage = () => {
-    const purchasedPizzas = JSON.parse(localStorage.getItem("purchases") || '[]');
+    const purchasedPizzas = JSON.parse(localStorage.getItem("purchases") || "[]") as PizzaPurchase[];
     setPurchases(purchasedPizzas);
   };
 
   return (
-    <section className='pizza'>
+    <section className="pizza">
       <div>
+        <h2>Pizzas vendidas</h2>
         <ul>
-          {purchases.map((pizza: any, index: number) => (
+          {purchases.map((pizza, index) => (
             <li key={index}>
               <strong>Sabor:</strong> {pizza.name} - <strong>Preço:</strong> R${pizza.price.toFixed(2)}
               <br />
               <strong>Tamanho:</strong> {pizza.size}
-              {pizza.stuffed_pizza_edge === "true" && (
+              {pizza.stuffed_pizza_edge && (
                 <span> - <strong>Borda Recheada:</strong> {pizza.flavor_stuffed_pizza_edge}</span>
               )}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h2>Lista de Pizzas Disponíveis</h2>
-        <ul>
-          {pizzaData.map((pizza: any) => (
-            <li key={pizza.id}>
-              <strong>Nome:</strong> {pizza.name} - <strong>Ingredientes:</strong> {pizza.text}
             </li>
           ))}
         </ul>
@@ -45,5 +43,3 @@ function Pizza() {
 }
 
 export default Pizza;
-
-
