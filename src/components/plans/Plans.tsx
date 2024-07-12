@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Section from './sections/section1/Section';
-import AuthService from '../../services/auth.service'; // Importe o AuthService corretamente
+import AuthService from '../../services/auth.service'; 
 import './Plans.css';
 
 interface PlansState {

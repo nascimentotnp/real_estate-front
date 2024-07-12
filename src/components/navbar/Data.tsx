@@ -34,7 +34,7 @@ const navbar_items: NavbarItem[] = [
 
   },
   {
-    name: "purchase",
+    name: "compras",
     icon: FaShoppingCart,
     public: false,
     animated: true,

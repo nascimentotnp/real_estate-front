@@ -22,6 +22,7 @@ import Notfound from "./components/notfound/Notfound";
 import Plans from "./components/plans/Plans";
 import Pizza from "./components/pizza/Pizza";
 import Formulary from "./components/form/Form";
+import { ToastContainer } from "react-toastify";
 
 type Props = {};
 
@@ -90,22 +91,19 @@ class App extends Component<Props, State> {
             <Route path="/login" element={<Login />} />
             <Route path="/registrar" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/purchase" element={<BoardUser />} />
+            <Route path="/compras" element={<BoardUser />} />
             <Route path="/admin" element={<BoardAdmin currentUser={undefined} />} />
             <Route path="/sobre" element={<About />} />
             <Route path="*" element={<Notfound />} />
             <Route path="/plans" element={<Plans />} />
             <Route path="/pizzas" element={< Pizza/>}/>
             <Route path="/pizza/:id" element={<Formulary />} />
-
-
-
-
           </Routes>
         </div>
         <div className="_footer">
           <Footer />
         </div>
+        <ToastContainer autoClose={3000} />
       </div>
     );
   }

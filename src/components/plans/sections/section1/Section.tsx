@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import Button from "../../../button/Button";
 
 interface Flavor {
-  image: any;
+  image: undefined | any | string;
   text: string;
   id: number;
   price?: number;
@@ -22,7 +22,7 @@ class Section extends Component {
         <div className="b mb-5 text-center p-3 shadow rounded m-2" key={index}>
           <img
             className="img-fluid mb-3"
-            src={item.image.default}
+            src={item.image}
             alt="pizza"
           />
           <p className="title">{item.text}</p>

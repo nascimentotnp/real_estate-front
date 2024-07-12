@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
+import AuthService from "../services/auth.service"; // Adicione isso para obter o usuário atual
 import EventBus from "../common/EventBus";
 
 type Props = {};
@@ -42,8 +43,18 @@ export default class BoardUser extends Component<Props, State> {
       }
     );
 
-    const purchases = JSON.parse(localStorage.getItem("purchases") || '[]');
-    this.setState({ purchases });
+    this.loadUserPurchases();
+  }
+
+  loadUserPurchases() {
+    const currentUser = AuthService.getCurrentUser();
+    if (!currentUser) {
+      EventBus.dispatch("logout");
+      return;
+    }
+    const allPurchases = JSON.parse(localStorage.getItem("purchases") || '[]');
+    const userPurchases = allPurchases.filter((purchase: { userId: any; }) => purchase.userId === currentUser.id);
+    this.setState({ purchases: userPurchases });
   }
 
   render() {
@@ -53,11 +64,10 @@ export default class BoardUser extends Component<Props, State> {
           <h3>{this.state.content}</h3>
         </header>
         <div>
-          <h4>Compras Realizadas</h4>
           <ul>
             {this.state.purchases.map((purchase, index) => (
               <li key={index}>
-                {purchase.name} - {purchase.size} - R${purchase.price.toFixed(2)}
+                {purchase.name} - {purchase.size} {purchase.flavor_stuffed_pizza_edge ? 'com borda de ' + purchase.flavor_stuffed_pizza_edge : null} - R${purchase.price.toFixed(2)}
               </li>
             ))}
           </ul>

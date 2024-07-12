@@ -45,7 +45,7 @@ export default class Profile extends Component<Props, State> {
           <div>
             <header className="jumbotron">
               <h3>
-                <strong>{currentUser.username}</strong> Profile
+              O seu perfil é: <strong>{currentUser.username}</strong> 
               </h3>
             </header>
             

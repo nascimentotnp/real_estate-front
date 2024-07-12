@@ -76,17 +76,14 @@ select {
 }
 
 /* Estilos do botão de envio */
-input[type="submit"] {
-    background-color: #b8514d;
+.button {
+    background-color: #3d6a6d; ;
     color: white;
-    padding: 14px 20px;
-    margin-top: 8px; /* Alterado para margin-top */
     border: none;
-    border-radius: 4px;
+    border-radius: 25px;
     cursor: pointer;
     width: 100%;
     font-size: 16px;
-    transition: background-color 0.3s ease; /* Adicionada transição */
 }
 
 input[type="submit"]:hover {

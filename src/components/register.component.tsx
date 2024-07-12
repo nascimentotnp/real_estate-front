@@ -4,7 +4,7 @@ import * as Yup from "yup";
 
 import AuthService from "../services/auth.service";
 import withNavigation from "./withNavigation";
-import { users } from "../services/data"; // Certifique-se de que esta importação esteja correta
+import { users } from "../services/data"; 
 
 type Props = {
   navigate: any;
@@ -16,7 +16,8 @@ type State = {
   password: string,
   successful: boolean,
   message: string,
-  role: string
+  role: string,
+  isAdmin: boolean
 };
 
 class Register extends Component<Props, State> {
@@ -30,8 +31,17 @@ class Register extends Component<Props, State> {
       password: "",
       successful: false,
       message: "",
-      role: ""
+      role: "user", // Default role for standard users
+      isAdmin: false // Assume not an admin initially
     };
+  }
+
+  componentDidMount() {
+    // Check if the current user is an admin
+    const currentUser = AuthService.getCurrentUser();
+    if (currentUser && currentUser.role === "admin") {
+      this.setState({ isAdmin: true });
+    }
   }
 
   validationSchema() {
@@ -59,12 +69,11 @@ class Register extends Component<Props, State> {
             val.toString().length <= 40
         )
         .required("This field is required!"),
-      role: Yup.string()
-        .required("This field is required!")
+      role: Yup.string().required("This field is required!")
     });
   }
 
-  handleRegister(formValue: { username: string; email: string; password: string, role: string }) {
+  handleRegister(formValue: { username: string; email: string; password: string; role: string }) {
     const { username, email, password, role } = formValue;
 
     this.setState({
@@ -72,24 +81,17 @@ class Register extends Component<Props, State> {
       successful: false
     });
 
-    AuthService.register(
-      username,
-      email,
-      password, 
-      role
-    ).then(
+    AuthService.register(username, email, password, role).then(
       response => {
         this.setState({
           successful: true,
           message: "Registration successful!"
         });
-        this.props.navigate("/login"); // Redirect to login page
+        this.props.navigate("/login"); 
       },
       error => {
         const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
+          (error.response && error.response.data && error.response.data.message) ||
           error.message ||
           error.toString();
 
@@ -102,24 +104,19 @@ class Register extends Component<Props, State> {
   }
 
   render() {
-    const { successful, message } = this.state;
+    const { successful, message, isAdmin } = this.state;
 
     const initialValues = {
       username: "",
       email: "",
       password: "",
-      role: ""
+      role: isAdmin ? "" : "user"
     };
 
     return (
       <div className="col-md-12">
-        <div className="card card-container">
-          <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-          />
-
+        <div className="card card-container py-3">
+          
           <Formik
             initialValues={initialValues}
             validationSchema={this.validationSchema}
@@ -150,32 +147,34 @@ class Register extends Component<Props, State> {
 
                   <div className="form-group">
                     <label htmlFor="password"> Password </label>
-                    <Field
-                      name="password"
-                      type="password"
-                      className="form-control"
-                    />
+                    <Field name="password" type="password" className="form-control" />
                     <ErrorMessage
                       name="password"
                       component="div"
                       className="alert alert-danger"
                     />
                   </div>
-                  
-                  <div className="form-group">
-                    <label htmlFor="role"> Role </label>
-                    <Field as="select" name="role" className="form-control">
-                      <option value="">Select a role</option>
-                      {users.map((role: { id: number, role: string }) => (
-                        <option key={role.id} value={role.role}>{role.role}</option>
-                      ))}
-                    </Field>
-                    <ErrorMessage
-                      name="role"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
+
+                  {isAdmin && (
+                    <div className="form-group">
+                      <label htmlFor="role"> Role </label>
+                      <Field as="select" name="role" className="form-control">
+                        <option value="">Select a role</option>
+                        {users.map((role: { id: number, role: string }) => (
+                          <option key={role.id} value={role.role}>{role.role}</option>
+                        ))}
+                      </Field>
+                      <ErrorMessage
+                        name="role"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                  )}
+
+                  {!isAdmin && (
+                    <Field type="hidden" name="role" />
+                  )}
 
                   <div className="form-group">
                     <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
@@ -186,9 +185,7 @@ class Register extends Component<Props, State> {
               {message && (
                 <div className="form-group">
                   <div
-                    className={
-                      successful ? "alert alert-success" : "alert alert-danger"
-                    }
+                    className={successful ? "alert alert-success" : "alert alert-danger"}
                     role="alert"
                   >
                     {message}

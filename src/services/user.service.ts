@@ -1,4 +1,4 @@
-import { adminBoard, moderatorBoard, publicContent, userBoard } from "./data";
+import { adminBoard, publicContent, userBoard } from "./data";
 
 interface ApiResponse {
   data: string;
@@ -16,11 +16,7 @@ class UserService {
     });
   }
 
-  getModeratorBoard() {
-    return new Promise<ApiResponse>((resolve) => {
-      resolve({ data: moderatorBoard });
-    });
-  }
+  
 
   getAdminBoard() {
     return new Promise<ApiResponse>((resolve) => {

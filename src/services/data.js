@@ -6,6 +6,5 @@ const users = [
 
 export { users };
 export const publicContent = 'Public Content';
-export const userBoard = 'Compras';
-export const moderatorBoard = 'Moderator Board Content';
+export const userBoard = 'Pizzas compradas pelo Usuário';
 export const adminBoard = 'Admin Board Content';
