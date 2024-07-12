@@ -1,5 +1,3 @@
-# gestao-master-front
-
 # Coccina DiTrento
 
 Este é o repositório do projeto Coccina DiTrento, uma aplicação de pedidos de pizza. A aplicação permite que os usuários façam login, registrem-se, façam pedidos de pizza, e visualizem suas compras.
@@ -18,22 +16,20 @@ O projeto está estruturado em componentes React e utiliza serviços para autent
 1. Clone o repositório:
    ```bash
    git clone https://github.com/nascimentotnp/real_estate-front.git
-   cd coccina-ditrento
-Instale as dependências:
-bash
-Copiar código
+   cd real_estate-front
+
+# Instale as dependências:
 npm install
 Executando a Aplicação
 Inicie o servidor de desenvolvimento:
 
-bash
-Copiar código
+
 npm start
 Abra seu navegador e acesse http://localhost:3000.
 
-Usuários de Teste
+# Usuários de Teste
 Você pode usar os seguintes usuários para fazer login na aplicação:
-
+**
 Usuário Comum
 Username: usuario
 Password: senha123
@@ -44,18 +40,21 @@ Username: admin
 Password: senha456
 Email: usuario2@email.com
 Role: admin
-Funcionalidades
-Login e Registro: Os usuários podem se registrar e fazer login na aplicação.
+**
+## Funcionalidades
+** Login e Registro: **
+Os usuários podem se registrar e fazer login na aplicação.
 Pedidos de Pizza: Os usuários podem selecionar pizzas, escolher tamanhos e bordas, e fazer pedidos.
-Histórico de Compras: Os usuários podem visualizar suas compras realizadas.
+# Histórico de Compras: Os usuários podem visualizar suas compras realizadas.
 Autenticação: A aplicação utiliza um serviço de autenticação (AuthService) para gerenciar login, logout e registro de usuários.
 Componentes Principais
-Formulary: Componente para fazer pedidos de pizza. Inclui cálculo de preço e validação de formulário.
+# Formulary: Componente para fazer pedidos de pizza. Inclui cálculo de preço e validação de formulário.
 BoardUser: Componente para exibir o histórico de compras do usuário.
 BoardAdmin: Componente para funcionalidades administrativas (em desenvolvimento).
 Login: Componente de login utilizando Formik e Yup para validação de formulário.
 Register: Componente de registro utilizando Formik e Yup para validação de formulário.
-Navegação
+
+## Navegação
 A navegação na aplicação é gerenciada pelo React Router. As principais rotas incluem:
 
 /: Página inicial (Landing)
@@ -68,6 +67,7 @@ A navegação na aplicação é gerenciada pelo React Router. As principais rota
 /plans: Página de planos e ofertas
 /pizzas: Página de listagem de pizzas
 /pizza/:id: Página de formulário de pedido de pizza
+
 Notificações
 A aplicação utiliza a biblioteca react-toastify para exibir notificações de sucesso e erro.
 
@@ -80,8 +80,8 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull re
 Licença
 Este projeto está licenciado sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
-markdown
-Copiar código
+
+
 
 ### Detalhes Adicionais
 
